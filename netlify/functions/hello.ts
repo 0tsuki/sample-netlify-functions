@@ -17,14 +17,18 @@ const handler: Handler = async (event, context) => {
     };
   }
   if (typ === 'csv') {
-      return {
-        statusCode: 200,
-        headers: {
-          "Content-Disposition": 'attachment;filename="rpa.csv"',
-          "Content-Type": 'text/csv'
-        },
-        body: "123,日本太郎,77.5"
-      }
+    const fileName = event.queryStringParameters['file'] || 'data.csv';
+    const body = await fetch('https://objective-wing-b70022.netlify.app/assets/csv/data.csv')
+        .then(res => res.blob())
+    console.log(body.text())
+    return {
+      statusCode: 200,
+      headers: {
+        "Content-Disposition": `attachment;filename="${fileName}"`,
+        "Content-Type": 'text/csv'
+      },
+      body: "123,日本太郎,77.5"
+    }
   }
 
   return {
