@@ -1,4 +1,4 @@
-import { Handler } from "@netlify/functions";
+import { Handler, HandlerResponse } from "@netlify/functions";
 const fetch = require("node-fetch");
 
 const handler: Handler = async (event, context) => {
@@ -36,6 +36,25 @@ const handler: Handler = async (event, context) => {
       },
       body: csv
     }
+  }
+
+  if (typ === 'css') {
+    const fileName = event.queryStringParameters['file'] || 'styles.css';
+    const res = await fetch(`https://objective-wing-b70022.netlify.app/assets/css/${fileName}`);
+    if (res.status >= 400) {
+      return {
+        statusCode: res.status,
+        body: JSON.stringify({message: 'error'}),
+      }
+    }
+    const body = await (await res.blob()).text()
+    return {
+      statusCode: 200,
+      headers: {
+        "Content-Type": 'text/css'
+      },
+      body: body
+    } as HandlerResponse;
   }
 
   return {
