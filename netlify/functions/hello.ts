@@ -21,13 +21,13 @@ const handler: Handler = async (event, context) => {
   if (typ === 'csv') {
     const fileName = event.queryStringParameters['file'] || 'data.csv';
     const res = await fetch(`https://objective-wing-b70022.netlify.app/assets/csv/${fileName}`);
-    if (res.status != 200) {
+    if (res.status >= 400) {
       return {
         statusCode: res.status,
         body: JSON.stringify({message: 'error'}),
       }
     }
-    const csv = (await res.blob()).text()
+    const csv = await (await res.blob()).text()
     return {
       statusCode: 200,
       headers: {
