@@ -17,17 +17,24 @@ const handler: Handler = async (event, context) => {
       body: JSON.stringify({ message: "json" }),
     };
   }
+
   if (typ === 'csv') {
     const fileName = event.queryStringParameters['file'] || 'data.csv';
-    const res = await fetch('https://objective-wing-b70022.netlify.app/assets/csv/data.csv');
-    console.log((await res.blob()).text())
+    const res = await fetch(`https://objective-wing-b70022.netlify.app/assets/csv/${fileName}`);
+    if (res.status != 200) {
+      return {
+        statusCode: res.status,
+        body: JSON.stringify({message: 'error'}),
+      }
+    }
+    const csv = (await res.blob()).text()
     return {
       statusCode: 200,
       headers: {
         "Content-Disposition": `attachment;filename="${fileName}"`,
         "Content-Type": 'text/csv'
       },
-      body: "123,日本太郎,77.5"
+      body: csv
     }
   }
 
