@@ -16,6 +16,16 @@ const handler: Handler = async (event, context) => {
       body: JSON.stringify({ message: "json" }),
     };
   }
+  if (typ === 'csv') {
+      return {
+        statusCode: 200,
+        headers: {
+          "Content-Disposition": 'attachment;filename="rpa.csv"',
+          "Content-Type": 'text/csv'
+        },
+        body: "123,日本太郎,77.5"
+      }
+  }
 
   return {
     statusCode: 200,
