@@ -19,8 +19,8 @@ const handler: Handler = async (event, context) => {
   }
   if (typ === 'csv') {
     const fileName = event.queryStringParameters['file'] || 'data.csv';
-    const res = await fetch('https://objective-wing-b70022.netlify.app/assets/csv/data.csv')
-    console.log(res.body.text())
+    const res = await fetch('https://objective-wing-b70022.netlify.app/assets/csv/data.csv');
+    console.log((await res.blob()).text())
     return {
       statusCode: 200,
       headers: {
