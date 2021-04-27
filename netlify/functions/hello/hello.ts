@@ -1,5 +1,6 @@
 import { Handler, HandlerResponse } from "@netlify/functions";
-import * as fs from "fs";
+const fs = require("fs");
+const path = require("path");
 const fetch = require("node-fetch");
 
 const handler: Handler = async (event, context) => {
@@ -21,7 +22,7 @@ const handler: Handler = async (event, context) => {
 
   if (typ === 'csv') {
     const fileName = event.queryStringParameters['file'] || 'data.csv';
-    const file = fs.readFileSync(require.resolve(`./${fileName}`));
+    const file = fs.readFileSync(path.join(__dirname, fileName));
     return {
       statusCode: 200,
       headers: {
