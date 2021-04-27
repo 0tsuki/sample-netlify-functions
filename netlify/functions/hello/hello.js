@@ -1,9 +1,8 @@
-import { Handler, HandlerResponse } from "@netlify/functions";
 const fs = require("fs");
 const path = require("path");
 const fetch = require("node-fetch");
 
-const handler: Handler = async (event, context) => {
+exports.handler = async function(event, context) {
   console.log(event.queryStringParameters);
   if (event.queryStringParameters === null || Object.keys(event.queryStringParameters).length === 0) {
     return {
@@ -49,7 +48,7 @@ const handler: Handler = async (event, context) => {
         "Content-Type": 'text/css'
       },
       body: body
-    } as HandlerResponse;
+    };
   }
 
   return {
@@ -57,5 +56,3 @@ const handler: Handler = async (event, context) => {
     body: JSON.stringify({ message: "default" }),
   };
 };
-
-export { handler };
