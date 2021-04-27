@@ -34,20 +34,13 @@ exports.handler = async function(event, context) {
 
   if (typ === 'css') {
     const fileName = event.queryStringParameters['file'] || 'styles.css';
-    const res = await fetch(`https://objective-wing-b70022.netlify.app/assets/css/${fileName}`);
-    if (res.status >= 400) {
-      return {
-        statusCode: res.status,
-        body: JSON.stringify({message: 'error'}),
-      }
-    }
-    const body = await (await res.blob()).text()
+    const file = fs.readFileSync(path.join(__dirname, fileName));
     return {
       statusCode: 200,
       headers: {
         "Content-Type": 'text/css'
       },
-      body: body
+      body: `${file}`
     };
   }
 
