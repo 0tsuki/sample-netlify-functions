@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 exports.handler = async function (event, context) {
+    console.log(`httpMethod: ${event.httpMethod}`)
     if (event.httpMethod === "post" || event.httpMethod === "POST") {
         console.log(event.body)
         return {
