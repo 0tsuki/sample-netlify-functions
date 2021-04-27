@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 exports.handler = async function(event, context) {
-  console.log(event.queryStringParameters);
+  console.log(event.queryStringParameters);  // query string parameter取得可能
   if (event.queryStringParameters === null || Object.keys(event.queryStringParameters).length === 0) {
     return {
       statusCode: 400,
@@ -20,11 +20,11 @@ exports.handler = async function(event, context) {
 
   if (typ === 'csv') {
     const fileName = event.queryStringParameters['file'] || 'data.csv';
-    const file = fs.readFileSync(path.join(__dirname, fileName));
+    const file = fs.readFileSync(path.join(__dirname, fileName));  // response bodyにファイルを使用可能
     return {
       statusCode: 200,
       headers: {
-        "Content-Disposition": `attachment;filename="${fileName}"`,
+        "Content-Disposition": `attachment;filename="download-${fileName}"`,  // downloadファイル名指定可能
         "Content-Type": 'text/csv'
       },
       body: `${file}`
