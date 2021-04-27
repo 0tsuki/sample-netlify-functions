@@ -1,4 +1,5 @@
 import { Handler, HandlerResponse } from "@netlify/functions";
+import * as fs from "fs";
 const fetch = require("node-fetch");
 
 const handler: Handler = async (event, context) => {
@@ -20,21 +21,14 @@ const handler: Handler = async (event, context) => {
 
   if (typ === 'csv') {
     const fileName = event.queryStringParameters['file'] || 'data.csv';
-    const res = await fetch(`https://objective-wing-b70022.netlify.app/assets/csv/${fileName}`);
-    if (res.status >= 400) {
-      return {
-        statusCode: res.status,
-        body: JSON.stringify({message: 'error'}),
-      }
-    }
-    const csv = await (await res.blob()).text()
+    const file = fs.readFileSync(fileName);
     return {
       statusCode: 200,
       headers: {
         "Content-Disposition": `attachment;filename="${fileName}"`,
         "Content-Type": 'text/csv'
       },
-      body: csv
+      body: `${file}`
     }
   }
 
