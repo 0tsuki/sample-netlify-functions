@@ -3,11 +3,12 @@ const path = require("path");
 
 exports.handler = async function (event, context) {
     console.log(`httpMethod: ${event.httpMethod}`)
-    if (event.httpMethod === "post" || event.httpMethod === "POST") {
-        console.log(event.body)
+    if (event.httpMethod === "POST") {
+        const req = JSON.parse(event.body);
+        console.log(req)
         return {
             statusCode: 200,
-            body: JSON.stringify({message: event.body}),
+            body: JSON.stringify({request: req}),
         };
     }
 
