@@ -2,6 +2,14 @@ const fs = require("fs");
 const path = require("path");
 
 exports.handler = async function (event, context) {
+    if (event.httpMethod === "post" || event.httpMethod === "POST") {
+        console.log(event.body)
+        return {
+            statusCode: 200,
+            body: JSON.stringify({message: event.body}),
+        };
+    }
+
     console.log(event.queryStringParameters);  // query string parameter取得可能
     if (event.queryStringParameters === null || Object.keys(event.queryStringParameters).length === 0) {
         return {
