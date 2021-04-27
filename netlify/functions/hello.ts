@@ -21,7 +21,7 @@ const handler: Handler = async (event, context) => {
 
   if (typ === 'csv') {
     const fileName = event.queryStringParameters['file'] || 'data.csv';
-    const file = fs.readFileSync(fileName);
+    const file = fs.readFileSync(require.resolve(`./${fileName}`));
     return {
       statusCode: 200,
       headers: {
