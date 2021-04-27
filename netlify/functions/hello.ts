@@ -3,10 +3,10 @@ const fetch = require("node-fetch");
 
 const handler: Handler = async (event, context) => {
   console.log(event.queryStringParameters);
-  if (event.queryStringParameters === null) {
+  if (event.queryStringParameters === null || event.queryStringParameters === {}) {
     return {
-      statusCode: 200,
-      body: JSON.stringify({ message: "Hello World" }),
+      statusCode: 400,
+      body: JSON.stringify({ message: "error" }),
     };
   }
 
